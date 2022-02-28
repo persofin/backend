@@ -1,7 +1,9 @@
 package app.persofin.backend
 
+import app.persofin.backend.model.Currencies
 import app.persofin.backend.model.Transactions
 import app.persofin.backend.persistence.db.DB
+import app.persofin.backend.persistence.db.DB.initialize
 import app.persofin.backend.persistence.db.DB.migrate
 import io.ktor.application.*
 import io.ktor.features.*
@@ -16,7 +18,11 @@ fun main() {
     DB.connect()
     transaction {
         migrate(
-            Transactions
+            Transactions,
+            Currencies,
+        )
+        initialize(
+            Currencies,
         )
     }
     embeddedServer(Netty, port = 8080) {

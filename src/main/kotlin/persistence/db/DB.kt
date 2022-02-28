@@ -20,4 +20,10 @@ object DB {
         execInBatch(SchemaUtils.addMissingColumnsStatements(*tables))
     }
 
+    fun <T : InitializableTable> Transaction.initialize(vararg tables : T) {
+        tables.forEach {
+            it.initialize()
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 
 object Transactions : LongIdTable() {
     val amount = long("amount")
+    val currency = reference("currency", Currencies)
     val type = short("transaction_type")
 }
 
@@ -15,6 +16,7 @@ class Transaction(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<Transaction>(Transactions)
 
     var amount by Transactions.amount
+    var currency by Currency referencedOn Transactions.currency
     var type by Transactions.type
 
     fun toData() = TransactionData(id.value, amount, type)
